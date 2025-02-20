@@ -18,7 +18,7 @@ def check_keydown_events(screen, ai_settings,  event, ship, enemy,bullets):
         ship.moving_right = True
         enemy.moving_right = True
     elif event.key == pygame.K_LEFT:
-        # 向右移动飞机
+        # 向左移动飞机
         ship.moving_left = True
         enemy.moving_left = True
     elif event.key == pygame.K_UP:
@@ -63,17 +63,15 @@ def check_play_button(screen,ai_settings,ship,aliens,bullets,stats,play_button,m
         create_fleet(screen,ai_settings,aliens,ship)
         ship.center_ship()
 
-def check_left_button(screen,ai_settings,ship,aliens,bullets,stats,left_button,mouse_x,mouse_y): 
-    button_clicked = left_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked:
-        ship.moving_left = True
+def check_move_button(screen,ai_settings,ship,aliens,bullets,stats,left_button,right_button,mouse_x,mouse_y): 
+    button_clicked_left = left_button.rect.collidepoint(mouse_x, mouse_y)
+    button_clicked_right = right_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked_left:
+       ship.moving_left = True
+    elif button_clicked_right:
+       ship.moving_right = True
     else:
         ship.moving_left = False
-def check_right_button(screen,ai_settings,ship,aliens,bullets,stats,right_button,mouse_x,mouse_y): 
-    button_clicked = right_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked:
-        ship.moving_right = True
-    else:
         ship.moving_right = False
           
 def check_events(screen,ai_settings,ship,enemy,aliens,bullets,stats,play_button,left_button,right_button):
@@ -84,12 +82,12 @@ def check_events(screen,ai_settings,ship,enemy,aliens,bullets,stats,play_button,
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x,mouse_y=pygame.mouse.get_pos()
             check_play_button(screen,ai_settings,ship,aliens,bullets,stats,play_button,mouse_x,mouse_y)
-            check_left_button(screen,ai_settings,ship,aliens,bullets,stats,left_button,mouse_x,mouse_y)
-            check_right_button(screen,ai_settings,ship,aliens,bullets,stats,right_button,mouse_x,mouse_y)
+            check_move_button(screen,ai_settings,ship,aliens,bullets,stats,left_button,right_button,mouse_x,mouse_y)
         elif event.type == pygame.MOUSEBUTTONUP:
+            print('MOUSEBUTTONUP')
             mouse_x,mouse_y=pygame.mouse.get_pos()
-            check_left_button(screen,ai_settings,ship,aliens,bullets,stats,left_button,mouse_x,mouse_y)
-            check_right_button(screen,ai_settings,ship,aliens,bullets,stats,right_button,mouse_x,mouse_y)
+            ship.moving_left = False
+            ship.moving_right = False
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(screen,ai_settings,  event, ship, enemy,bullets)
         elif event.type == pygame.KEYUP:
@@ -196,7 +194,6 @@ def change_fleet_direction(ai_settings,aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *=-1
 
-
 def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
  
     """响应被外星人撞到的飞船""" 
@@ -215,7 +212,6 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         stats.game_active = False
         # 游戏结束，显示
         pygame.mouse.set_visible(not stats.game_active) 
-
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets): 
     """检查是否有外星人到达了屏幕底端""" 
