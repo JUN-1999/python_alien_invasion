@@ -28,3 +28,10 @@ class Settings():
         self.ship_limit = 0
         # 移动速度
         self.ship_speed_factor = 5 
+
+
+    def reinit(self):
+        print('重置信息')
+        self.alien_speen_factor=1
+        self.fleet_drop_speed=20
+        self.ship_limit = 0

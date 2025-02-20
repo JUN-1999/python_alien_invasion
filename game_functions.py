@@ -138,8 +138,6 @@ def check_bullet_alien_collisions(screen,ai_settings,ship,bullets,aliens):
         bullets.empty()
         ai_settings.alien_speen_factor=ai_settings.alien_speen_factor + 0.5
         ai_settings.fleet_drop_speed=ai_settings.fleet_drop_speed + 0.5
-        print(ai_settings.alien_speen_factor)
-        print(ai_settings.fleet_drop_speed)
         create_fleet(screen,ai_settings,aliens,ship)
         
 def get_number_aliens_x(ai_settings,alien_width):
@@ -203,6 +201,8 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
         # 清空外星人列表和子弹列表
         aliens.empty() 
         bullets.empty() 
+
+
         # 创建一群新的外星人，并将飞船放到屏幕底端中央
         create_fleet(screen,ai_settings,aliens,ship) 
         ship.center_ship() 
@@ -211,6 +211,8 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
     else:
         stats.game_active = False
         # 游戏结束，显示
+        # 重置敌机信息
+        ai_settings.reinit()
         pygame.mouse.set_visible(not stats.game_active) 
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets): 
