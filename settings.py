@@ -6,7 +6,7 @@ class Settings():
         # 屏幕设置
         self.screen_width = 600
         self.screen_height = 800
-        self.bg_color = (159, 159, 159)
+        self.bg_color = (0, 0, 159)
        
         
         # 子弹设置
