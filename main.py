@@ -15,7 +15,6 @@ async def main():
     print(pygame)
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
-    print(dir(screen))
     pygame.display.set_caption('飞机大战')
     
     # 创建一艘飞船
