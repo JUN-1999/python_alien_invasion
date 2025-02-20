@@ -29,8 +29,7 @@ def check_keydown_events(screen, ai_settings,  event, ship, enemy,bullets):
         fire_bullet(screen,ai_settings,ship,bullets)
     elif event.key == pygame.K_q:
         sys.exit()
-        
-        
+              
 def check_keyup_events(event,ship,enemy):
     """专门处理松开操作"""
     # 松开按钮
@@ -44,8 +43,7 @@ def check_keyup_events(event,ship,enemy):
         enemy.moving_up = False
     elif event.key == pygame.K_DOWN:
         enemy.moving_down = False
-        
-        
+          
 def check_events(screen,ai_settings, ship,enemy,bullets):
     """响应按键和鼠标事件"""
     for event in pygame.event.get():
@@ -56,8 +54,12 @@ def check_events(screen,ai_settings, ship,enemy,bullets):
         elif event.type == pygame.KEYUP:
             check_keyup_events(event,ship,enemy)
             
-def update_screen(screen,ai_settings,  ship,enemy,bullets,aliens):
+def update_screen(screen,ai_settings,ship,enemy,bullets,aliens,current_time):
     """更新屏幕上的图像，并切换到新屏幕"""
+    # 判断时间戳是否到达要求，达到要求发射子弹
+    if (current_time-ship.start_time_stamp) > ship.delta_time:
+        ship.start_time_stamp=current_time
+        fire_bullet(screen,ai_settings,ship,bullets)
     # 每次循环时都重绘屏幕
     screen.fill(ai_settings.bg_color)
     # 绘制子弹
@@ -70,7 +72,6 @@ def update_screen(screen,ai_settings,  ship,enemy,bullets,aliens):
     # 让最近绘制的屏幕可见
     pygame.display.flip()
    
-    
 def update_bullets(screen,ai_settings,ship,bullets,aliens):
     """更新子弹操作"""
     # 更新子弹位置
@@ -89,9 +90,12 @@ def check_bullet_alien_collisions(screen,ai_settings,ship,bullets,aliens):
     if len(aliens) == 0:
         # 删除现有子弹并新建一群外星人
         bullets.empty()
+        ai_settings.alien_speen_factor=ai_settings.alien_speen_factor + 0.5
+        ai_settings.fleet_drop_speed=ai_settings.fleet_drop_speed + 0.5
+        print(ai_settings.alien_speen_factor)
+        print(ai_settings.fleet_drop_speed)
         create_fleet(screen,ai_settings,aliens,ship)
         
-
 def get_number_aliens_x(ai_settings,alien_width):
     """获得每行最多可渲染敌机数"""
     available_space_x = ai_settings.screen_width - 2 * alien_width

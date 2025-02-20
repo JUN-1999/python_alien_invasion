@@ -30,9 +30,14 @@ async def main():
     aliens = Group()
     # 创建敌机群
     gf.create_fleet(screen,ai_settings,aliens,ship)
+
+    
+    clock = pygame.time.Clock()
+    last_time = pygame.time.get_ticks()
     
     # 开始游戏的主循环
     while True:
+        current_time = pygame.time.get_ticks()
         # 监听键盘和鼠标事件
         gf.check_events(screen,ai_settings,ship,enemy,bullets)
         ship.update()
@@ -42,8 +47,15 @@ async def main():
         # 更新敌机
         gf.update_aliens(screen,ai_settings,ship,aliens,bullets,stats)
         # 每次循环时都重绘屏幕
-        gf.update_screen(screen,ai_settings,ship,enemy,bullets,aliens)
+        gf.update_screen(screen,ai_settings,ship,enemy,bullets,aliens,current_time)
         await asyncio.sleep(0)
+
+        # 更新状态
+        last_time = current_time
+    
+        # 控制游戏循环的帧率
+        clock.tick(60)
+
 
 
 if __name__ == "__main__":

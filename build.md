@@ -1,1 +1,1 @@
-python -m pygbag --archive  main.py
+python -m pygbag main.py

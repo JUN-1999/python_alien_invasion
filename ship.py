@@ -19,6 +19,10 @@ class Ship():
         # 移动标志
         self.moving_right = False
         self.moving_left = False
+
+        # 射击间隔
+        self.start_time_stamp = 0
+        self.delta_time = 300 # 单位毫秒 时间差
         
     def update(self):
         """根据移动标志调整飞船的位置"""
