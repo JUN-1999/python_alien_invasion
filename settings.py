@@ -25,6 +25,6 @@ class Settings():
 
         # 玩家设置
         # 玩家生命值
-        self.ship_limit=3
+        self.ship_limit = 0
         # 移动速度
-        self.ship_speed_factor = 3 
+        self.ship_speed_factor = 5 
