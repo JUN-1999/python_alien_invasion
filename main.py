@@ -38,12 +38,26 @@ async def main():
 
     # 创建开始按钮
     play_button=Button(ai_settings,screen,'Play')
+    # 创建向左按钮
+    left_button=Button(ai_settings,screen,'<',80,160)
+    left_button.msg_image_rect.centerx=50
+    left_button.msg_image_rect.centery=600
+    left_button.rect.centerx=50
+    left_button.rect.centery=600
+
+    # 创建向右按钮
+    right_button=Button(ai_settings,screen,'>',80,160)
+    right_button.msg_image_rect.centerx=screen.get_rect().width-50
+    right_button.msg_image_rect.centery=600
+    right_button.rect.centerx=screen.get_rect().width-50
+    right_button.rect.centery=600
+
     
     # 开始游戏的主循环
     while True:
         current_time = pygame.time.get_ticks()
         # 监听键盘和鼠标事件
-        gf.check_events(screen,ai_settings,ship,enemy,aliens,bullets,stats,play_button)
+        gf.check_events(screen,ai_settings,ship,enemy,aliens,bullets,stats,play_button,left_button,right_button)
         if stats.game_active:
             ship.update()
             # enemy.update()
@@ -53,7 +67,7 @@ async def main():
             gf.update_aliens(screen,ai_settings,ship,aliens,bullets,stats)
         
         # 每次循环时都重绘屏幕
-        gf.update_screen(screen,ai_settings,ship,enemy,bullets,aliens,current_time,stats,play_button)
+        gf.update_screen(screen,ai_settings,ship,enemy,bullets,aliens,current_time,stats,play_button,left_button,right_button)
 
 
         # 更新状态
